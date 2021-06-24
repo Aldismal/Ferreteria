@@ -1,0 +1,68 @@
+﻿@{ Layout = null; }
+@model Negocio.Venta
+
+@{
+    ViewBag.Title = "Detalle";
+}
+
+<link href="~/EstiloFerreteria1/css/sb-admin-2.css" rel="stylesheet" />
+<link href="~/EstiloFerreteria1/css/personalizado.css" rel="stylesheet" />
+
+
+<div class="card-body">
+    <div class="table-responsive">
+        <div class="container">
+            <h4 class="text-center">Venta</h4>
+            <hr /></br>
+
+            <table>
+                <caption>Detalle de la Venta</caption>
+                <thead>
+                    <tr>
+                        <th>N°Venta</th>
+                        <th>Cliente</th>
+                        <th>Fecha</th>
+                        <th>Cod.Producto</th>
+                        <th>Cantidad</th>
+
+                        <th>Importe</th>
+                    </tr>
+                </thead>
+                @foreach (Negocio.Venta item in Negocio.Venta.Listar())
+                {
+                    <tfoot>
+
+                        <tr>
+                            <td colspan="4">TOTAL</td>
+                            <td>@Html.DisplayFor(model => model.Total)</td>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr>
+                            <td>@Html.DisplayFor(model => model.IdVenta)</td>
+                            <td>@Html.DisplayFor(model => model.Nombre)r</td>
+                            <td>@Html.DisplayFor(model => model.Fecha)</td>
+                            <td>@Html.DisplayFor(model => model.IdProducto)</td>
+                            <td>@Html.DisplayFor(model => model.Cantidad)</td>
+                            <td>@Html.DisplayFor(model => model.Importe)</td>
+                        </tr>
+
+                    </tbody>
+                }
+
+
+            </table>
+            
+                <div class="container">
+
+                    <a href="/Ventas/Index">
+                        <input type="button" class="btn btn-primary btn-sm " value="Atrás">
+
+                    </a>
+
+                </div> 
+            
+        </div>
+    </div>
+</div>
+

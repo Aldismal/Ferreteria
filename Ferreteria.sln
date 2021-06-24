@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ferreteria", "Ferreteria\Ferreteria.csproj", "{3094E0BA-E71C-4AA0-AD0C-54C2A6F6D784}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Negocio", "Negocio\Negocio.csproj", "{F7F7E941-606E-4A00-8C7D-3665B7340D5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datos", "Datos\Datos.csproj", "{23BE6A91-D6F3-432B-A58E-95D7386A23AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3094E0BA-E71C-4AA0-AD0C-54C2A6F6D784}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3094E0BA-E71C-4AA0-AD0C-54C2A6F6D784}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3094E0BA-E71C-4AA0-AD0C-54C2A6F6D784}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3094E0BA-E71C-4AA0-AD0C-54C2A6F6D784}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7F7E941-606E-4A00-8C7D-3665B7340D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7F7E941-606E-4A00-8C7D-3665B7340D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7F7E941-606E-4A00-8C7D-3665B7340D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7F7E941-606E-4A00-8C7D-3665B7340D5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23BE6A91-D6F3-432B-A58E-95D7386A23AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23BE6A91-D6F3-432B-A58E-95D7386A23AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23BE6A91-D6F3-432B-A58E-95D7386A23AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23BE6A91-D6F3-432B-A58E-95D7386A23AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C2F0812D-AB7C-4E62-AA0C-325129908116}
+	EndGlobalSection
+EndGlobal

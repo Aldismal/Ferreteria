@@ -1,0 +1,67 @@
+﻿
+@{ Layout = null; }
+@model Negocio.Venta
+
+<link href="~/EstiloFerreteria1/css/sb-admin-2.css" rel="stylesheet" />
+<div class="container">
+    @Html.AntiForgeryToken()
+    <div class="card-body">
+        <div class="table-responsive">
+            </br> <h2>Nueva Venta</h2>
+            <br>
+
+            <form action="/Ventas/Guardar" method="post">
+
+                <div class="form-group">
+                    <label> Cliente:</label> <br>
+                    <input type="text" id="Cliente" placeholder="Consumidor Final"  name="Cliente" disabled />
+                    
+                </div>
+
+                <div class="form-group">
+                    <label> Descripcion:</label> <br>
+                    <input type="text" id="Descripcion" name="Descripcion" required />
+                </div>
+
+                <div class="form-group">
+                    <label> Fecha:</label> <br>
+                    <input type="date" id="Fecha" name="Fecha" required />
+                </div>
+
+                <hr /></br>
+                <div class="form-group">
+                    <label> Codigo Producto:</label> 
+                        <select name="productos" size="1">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                        </select>
+                </div>
+
+                <div class="form-group">
+                    <label> Cantidad:</label>
+                      <select name="cantidad" size="1">
+                         <option>1</option>
+                         <option>2</option>
+                         <option>4</option>
+                         <option>5</option>
+                         <option>6</option>
+                         <option>7</option>
+                      </select>
+                </div>
+                <hr /></br>
+                <div class="form-group">
+                    <label> Importe:</label> <br>
+                    <input type="number" id="Importe" name="Importe" required />
+                </div>
+
+
+
+
+
+                <input type="submit" class="btn btn-primary" value="Añadir Nueva Venta" />
+                <a href="/Ventas/Index" class="btn btn-dark btn-group-lg ">Atrás</a>
+            </form>
+        </div>
+    </div>
+</div>

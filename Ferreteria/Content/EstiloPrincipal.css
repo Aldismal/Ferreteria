@@ -1,0 +1,17 @@
+﻿
+h3 {
+    font-size: 30px;
+    color: #d14747;
+    text-align: center;
+    text-decoration: underline;
+}
+#izquierda {
+    height: 50vh;
+    width: 50%;
+}
+
+#pantalla1 {
+    display: flex;
+    margin-left: 90px;
+    background-position: center;
+}
