@@ -69,7 +69,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Login de Ferreteria Mini</h1>
                                     </div>
-                                    <form class="user" id="frm" method="post" action="/Usuarios/Validar">
+                                    <form class="user" id="frm" method="post" action="/Home/Index">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user" name="Email"
                                                    id="exampleInputEmail" aria-describedby="emailHelp"
@@ -77,7 +77,7 @@
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user" name="Clave"
-                                                   id="exampleInputPassword" placeholder="Clave...">
+                                                   id="exampleInputPassword" placeholder="Clave..." >
                                         </div>
 
                                         <div id="msgError" class="card bg-danger text-white shadow" style="display:none">
@@ -97,9 +97,10 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <a href="/Home/Index" class="btn btn-primary btn-user btn-block">
+                                        @*<a href="/Home/Index" class="btn btn-primary btn-user btn-block">
                                             Ingresar
-                                        </a>
+                                        </a>*@
+                                        <button type="submit" class="btn btn-primary">Ingresar</button>
                                         <hr>
 
                                     </form>

@@ -61,7 +61,8 @@ namespace Negocio
 
         public void Grabar()
         {
-            if (Validar(out string error))
+            string error;
+            if (Validar(out error))
             {
                 if (IdVenta != null)
                     Modificar();
