@@ -69,7 +69,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Login de Ferreteria Mini</h1>
                                     </div>
-                                    <form class="user" id="frm" method="post" action="/Home/Index">
+                                    <form class="user" id="frm" method="post" action="/usuarios/validar">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user" name="Email"
                                                    id="exampleInputEmail" aria-describedby="emailHelp"
@@ -77,16 +77,16 @@
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user" name="Clave"
-                                                   id="exampleInputPassword" placeholder="Clave..." >
+                                                   id="exampleInputPassword" placeholder="Clave...">
                                         </div>
 
-                                        <div id="msgError" class="card bg-danger text-white shadow" style="display:none">
-                                            <div class="card-body">
-                                                <div class="text-white small">
-                                                    Este es mi error
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @*<div id="msgError" class="card bg-danger text-white shadow" style="display:none">
+            <div class="card-body">
+                <div class="text-white small">
+                    Este es mi error
+                </div>
+            </div>
+        </div>*@
 
 
                                         <div class="form-group">
@@ -98,9 +98,28 @@
                                             </div>
                                         </div>
                                         @*<a href="/Home/Index" class="btn btn-primary btn-user btn-block">
-                                            Ingresar
-                                        </a>*@
-                                        <button type="submit" class="btn btn-primary">Ingresar</button>
+            Ingresar
+        </a>*@
+
+                                        @*SI USO EL BOTON SUBMIT PARA LLAMAR A LA ACCION (/usuarios/validar):
+                                        <button type="submit" class="btn btn-primary">Ingresar</button>*@
+
+                                        @*SI USO UN BOTON CON AJAX:*@
+                                        <button type="button" class="btn btn-primary" onclick="Validar()">Ingresar</button>
+
+                                        @*LABEL PARA MOSTRAR ERROR SI SE USA EL SUBMIT*@
+                                        @*@{
+                                            if (Session["Error"] != null)
+                                            {
+                                                <label style="color: red;">
+                                                    @Session["Error"];
+                                                </label>
+                                            }
+                                        }*@
+
+                                        @*LABEL PARA MOSTRAR ERROR CON AJAX*@
+                                        <label id="lblError" style="color: red;"></label>
+
                                         <hr>
 
                                     </form>
@@ -117,7 +136,9 @@
 
     </div>
 
-    
+
+
+
     <script src="~/EstiloFerreteria1/vendor/jquery/jquery.min.js"></script>
     <script src="~/EstiloFerreteria1/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -125,6 +146,29 @@
     <script src="~/EstiloFerreteria1/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <script src="~/EstiloFerreteria1/js/sb-admin-2.min.js"></script>
+
+
+    <script>
+        function Validar() {
+            $.ajax({
+                url: '/usuarios/ValidarConAjax',
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                processData: false,
+                data: $('#frm').serialize(),
+                success: function (response) {                
+                    //var resultado = $.parseJSON(response);
+                    if (response.Mensaje == '') {                        
+                        window.open("../home/index", "_self");  //si logueo bien
+                    }
+                    else {  //si hubo un error
+                        $("#lblError").text(response.Mensaje);
+                    }
+                }
+            });
+        }
+    </script>
 
 </body>
 

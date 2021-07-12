@@ -16,18 +16,70 @@ namespace Ferreteria.Controllers
             return View();
         }
 
+
         public ActionResult Validar()
         {
-            Session["Usuario"] = Usuario.Obtener(Request.Form["Email"].ToString(), Request.Form["Clave"].ToString());
+            Session["Error"] = "";  
 
-            if (Session["Usuario"] != null)
+
+            try  //intento obtener el usuario
             {
-                return RedirectToAction("Index", "Home");
+                Session["Usuario"] = Usuario.Obtener(Request.Form["Email"].ToString(), Request.Form["Clave"].ToString());
             }
-            else
+            catch (Exception ex)  //si no lo encontro
             {
-                return RedirectToAction("Error", "Home");
+                //devolver mensaje
+                if (ex.Message == "No existe Usuarios con los datos ingresados")
+                {      
+                    Session["Error"] = "No se encontró el usuario";
+                    return View("Login");
+                }
+                else  //si hubo otro error, redireccionar a la vista del error
+                {
+                    return RedirectToAction("Error", "Home");
+                }
             }
+           
+            
+            return RedirectToAction("Index", "Home");
+
+        }
+
+
+
+        [HttpPost]
+        public JsonResult ValidarConAjax()
+        {
+            MensajeRetorno respuesta = new MensajeRetorno();
+            respuesta.Mensaje = "";
+
+            try  //intento obtener el usuario
+            {
+                Session["Usuario"] = Usuario.Obtener(Request.Form["Email"].ToString(), Request.Form["Clave"].ToString());
+            }
+            catch (Exception ex)  //si no lo encontro
+            {
+                //devolver mensaje
+                if (ex.Message == "No existe Usuarios con los datos ingresados")
+                {
+                    respuesta.Mensaje = "No se encontró el usuario";
+                }
+                else  //si hubo otro error
+                {
+                    respuesta.Mensaje = ex.Message;
+                }
+            }
+
+
+            return Json(respuesta, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+        class MensajeRetorno
+        {
+            public string Mensaje { get; set; }
         }
     }
 }

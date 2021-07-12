@@ -13,6 +13,7 @@ namespace Ferreteria.Controllers
 
         public ActionResult Index()
         {
+            
             return View();
         }
 
