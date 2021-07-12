@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Enumerables\Usuario.cs" />
     <Compile Include="Menu.cs" />
+    <Compile Include="Producto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Venta.cs" />
     <Compile Include="Usuario.cs" />

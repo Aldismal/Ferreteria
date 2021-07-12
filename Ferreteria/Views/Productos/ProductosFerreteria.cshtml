@@ -1,0 +1,41 @@
+﻿@model List<Negocio.Producto>
+@{
+    ViewBag.Title = "ProductosFerreteria";
+}
+
+<h2>ProductosFerreteria</h2>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Tamaño</th>
+            <th>PrecioUnitario</th>
+            <th>Ubicacion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>@item.Nombre </tr>
+            <tr>@item.Descripcion</tr>
+            <tr>@item.Tamaño </tr>
+            <tr>@item.PrecioUnitario </tr>
+            <tr>@item.Ubicacion </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#table_id').DataTable();
+    });
+
+</script>
