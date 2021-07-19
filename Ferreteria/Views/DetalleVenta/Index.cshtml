@@ -1,0 +1,82 @@
+﻿
+@{ Layout = null; }
+@model List<Negocio.DetalleV>
+
+@{
+    ViewBag.Title = "Detalle";
+}
+
+<link href="~/EstiloFerreteria1/css/sb-admin-2.css" rel="stylesheet" />
+<link href="~/EstiloFerreteria1/css/personalizado.css" rel="stylesheet" />
+<link href="~/Content/alert.css" rel="stylesheet" />
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="~/Scripts/Ventas/sweetalert.js"></script>
+
+
+<div class="card-body">
+
+    <div class="table-responsive">
+        <div class="container">
+            <h4 class="text-center">Detalles de la Venta</h4>
+            <hr/><br/>
+
+        <table>
+            <caption>Detalle de la Venta</caption>
+            <thead>
+                <tr>
+                    <th>N°Venta</th>
+                    <th>Cód. Producto</th>
+                    <th>Precio Unitario</th>
+                    <th>Cantidad</th>
+                    <th style="background-color:yellow; color:black">Importe</th>
+                    <th>Operación</th>
+                </tr>
+            </thead>
+           
+            @foreach (Negocio.DetalleV item in Model)
+            {
+
+                <tbody>
+                    <tr>
+                        
+                            <td>@item.IdVenta</td>
+                            @*<td>@item.ListaDetalleV.Nombre</td>
+            <td>@item.Producto.Descripcion</td>*@
+                            <td>@item.IdProducto</td>
+                            <td>@item.PrecioUnitario</td>
+                            <td>@item.CantidadProd</td>
+                            <td style="background-color: yellow;color: black;font-weight: bold;">@item.Importe</td>
+                            <td>
+                                <a class="view link-icon-detail" href="/DetalleVenta/AgregarDetalle/@item.IdVenta" title="Agregar Detalle" data-id="1828843" data-src="?term=eliminar&amp;page=1&amp;position=4">
+                                    <img width="30" height="30" src="https://image.flaticon.com/icons/png/512/1263/1263914.png" alt="añadir lista" title="nuevo detalle" class="loaded">
+                                </a>
+                                <a class="view link-icon-detail" href="/Ventas/IndexFinal/@item.IdVenta" title="Ver Detalle" data-id="1828843" data-src="?term=eliminar&amp;page=1&amp;position=4">
+                                    <img src="https://image.flaticon.com/icons/png/512/1666/1666527.png" width="30" height="30" alt="Archivo  icono gratis" title="Ver Detalle" data-icon_src="https://www.flaticon.es/svg/vstatic/svg/1666/1666527.svg?token=exp=1626391193~hmac=5c1a9aaf8edc7cc6b0728fb621e6dda8">
+                                </a>
+                                @*<a class="btn btn-success btn-sm" href="/DetalleVenta/AgregarDetalle/@item.IdVenta" title="Agregar detalle">+</a>*@
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <a class="view link-icon-detail" onclick="EliminarDetalleV(@item.IdVenta)" title="Eliminar" data-id="1828843" data-src="?term=eliminar&amp;page=1&amp;position=4">
+                                        <img src="https://image.flaticon.com/icons/png/128/1828/1828843.png" data-src="https://image.flaticon.com/icons/png/128/1828/1828843.png" alt="Eliminar icono gratis" title="Eliminar detalle" width="30" height="30" class="lzy lazyload--done" srcset="https://image.flaticon.com/icons/png/128/1828/1828843.png 4x">
+                                    </a>
+
+                                </div>
+                            </td>
+                    </tr>
+                </tbody>
+            }
+
+        </table>
+        <div class="container">
+            <a href="/Ventas/Index">
+                <input type="button" class="btn btn-primary btn-sm " value="Atrás">
+            </a>
+            
+
+        </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Ventas/sweetalert.js"></script>
+<script src="~/Scripts/Ventas/ABM.js"></script>

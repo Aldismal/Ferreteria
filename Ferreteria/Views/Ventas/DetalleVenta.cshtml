@@ -1,5 +1,5 @@
 ﻿@{ Layout = null; }
-@model Negocio.Venta
+@model Negocio.DetalleV
 
 @{
     ViewBag.Title = "Detalle";
@@ -20,31 +20,31 @@
                 <thead>
                     <tr>
                         <th>N°Venta</th>
-                        <th>Cliente</th>
-                        <th>Fecha</th>
                         <th>Cod.Producto</th>
                         <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+
 
                         <th>Importe</th>
                     </tr>
                 </thead>
-                @foreach (Negocio.Venta item in Negocio.Venta.Listar())
+                @foreach (Negocio.DetalleV item in Negocio.DetalleV.ListarID(Model.IdVenta))
                 {
                     <tfoot>
 
                         <tr>
                             <td colspan="4">TOTAL</td>
-                            <td>@Html.DisplayFor(model => model.Total)</td>
+                            <td>@Html.DisplayFor(model => model.Importe)</td>
                         </tr>
                     </tfoot>
                     <tbody>
                         <tr>
+                            <td>@Html.DisplayFor(model => model.IdDetalleV)</td>
                             <td>@Html.DisplayFor(model => model.IdVenta)</td>
-                            <td>@Html.DisplayFor(model => model.Nombre)r</td>
-                            <td>@Html.DisplayFor(model => model.Fecha)</td>
-                            <td>@Html.DisplayFor(model => model.IdProducto)</td>
-                            <td>@Html.DisplayFor(model => model.Cantidad)</td>
-                            <td>@Html.DisplayFor(model => model.Importe)</td>
+                            <td>@Html.DisplayFor(model => model.IdProducto)r</td>
+                            <td>@Html.DisplayFor(model => model.CantidadProd)</td>
+                            <td>@Html.DisplayFor(model => model.PrecioUnitario)</td>
+
                         </tr>
 
                     </tbody>
@@ -52,16 +52,16 @@
 
 
             </table>
-            
-                <div class="container">
 
-                    <a href="/Ventas/Index">
-                        <input type="button" class="btn btn-primary btn-sm " value="Atrás">
+            <div class="container">
 
-                    </a>
+                <a href="/Ventas/Index">
+                    <input type="button" class="btn btn-primary btn-sm " value="Atrás">
 
-                </div> 
-            
+                </a>
+
+            </div>
+
         </div>
     </div>
 </div>

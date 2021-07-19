@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ferreteria</RootNamespace>
     <AssemblyName>Ferreteria</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -25,7 +25,6 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,7 +53,11 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
@@ -117,7 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\Productos.cs" />
+    <Compile Include="Controllers\DetalleVentaController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -127,6 +130,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\alert.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1986,6 +1990,8 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Usuarios\Boton.js" />
     <Content Include="Scripts\Usuarios\Login.js" />
+    <Content Include="Scripts\Ventas\ABM.js" />
+    <Content Include="Scripts\Ventas\sweetalert.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2003,9 +2009,16 @@
     <Content Include="Views\Usuarios\Login.cshtml" />
     <Content Include="Views\Ventas\Index.cshtml" />
     <Content Include="Views\Ventas\CrearVenta.cshtml" />
-    <Content Include="Views\Ventas\EditarVenta.cshtml" />
+    <Content Include="Views\DetalleVenta\AgregarDetalle.cshtml" />
     <Content Include="Views\Ventas\DetalleVenta.cshtml" />
-    <Content Include="Views\Productos\ProductosFerreteria.cshtml" />
+    <Content Include="Views\DetalleVenta\Index.cshtml" />
+    <Content Include="Views\DetalleVenta\Crear.cshtml" />
+    <Content Include="Views\DetalleVenta\crearDetalle.cshtml" />
+    <Content Include="Views\Ventas\IndexFinal.cshtml" />
+    <Content Include="Views\Ventas\Informe.cshtml" />
+    <Content Include="Views\Ventas\Detalle.cshtml" />
+    <Content Include="Views\Ventas\maestroDetalle.cshtml" />
+    <Content Include="Views\DetalleVenta\NuevoIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

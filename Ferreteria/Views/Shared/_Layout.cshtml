@@ -6,14 +6,37 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Inicio</title>
-
-
-    <script src="~/EstiloFerreteria1/vendor/jquery/jquery.js"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+    <div class="navbar navbar-brand navbar-fixed-top">
+        <div class="container">
+            
+            <div class="navbar-collapse collapse">
+                <ul class="nav nav-justified">
 
+                    @foreach (Negocio.Menu item in Model.ListaMenu)
+                    {
+                        if (item.Activo)
+                        {
+                            <li><a href="#" class="bg-info">@item.Accion</a></li>
+                        }
+
+                       
+
+                    }
+
+
+
+                    
+
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="container body-content">
         @RenderBody()
         <hr />

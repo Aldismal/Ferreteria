@@ -1,0 +1,34 @@
+﻿@{ Layout = null; }
+@{
+    ViewBag.Title = "Informe";
+}
+
+
+<link href="~/EstiloFerreteria1/css/sb-admin-2.css" rel="stylesheet" />
+<link href="~/EstiloFerreteria1/css/personalizado.css" rel="stylesheet" />
+<link href="~/Content/alert.css" rel="stylesheet" />
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="~/Scripts/Ventas/sweetalert.js"></script>
+<br />
+
+<div class="container">
+    <h2>Informe</h2>
+    <hr />
+    <br />
+    <form action="/Ventas/InformeGuardar" id="FrmVenta" method="post">
+
+        <label>Ingrese un mes:</label>
+        <input class="form-control" style="width: 250px" type="number" placeholder="ejemplo 01 como enero..." name="Fecha" id="Fecha" required />
+        <br />
+
+
+        <a class="btn btn-success" href="/Ventas/CrearVenta"> Obtener Informe</a>
+        <a class="btn btn-danger" href="/Ventas/Index"> Salir</a>
+
+
+
+    </form>
+</div>
+
+

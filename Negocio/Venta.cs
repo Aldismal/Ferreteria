@@ -14,18 +14,11 @@ namespace Negocio
     {
         public int? IdVenta { get; set; }
         public string Descripcion { get; set; }
+        public int IdCliente { get; set; }
         public DateTime Fecha { get; set; }
         public decimal Total { get; set; }
+        public List<DetalleV> ListaDetalleV { get; set; }
 
-        public decimal PrecioUnitario { get; set; }
-
-        public string Nombre { get; set; }
-
-        public int Cantidad { get; set; }
-
-        public int IdProducto { get; set; }
-
-        public decimal Importe { get; set; }
         public static List<Venta> Listar()
         {
             List<Venta> listaVentas = new List<Venta>();
@@ -43,35 +36,45 @@ namespace Negocio
             return listaVentas;
         }
 
-       
-
-        public static Venta ObtenerDetalle(int id)
+        public static List<Venta> ListarTot(int IdVenta)
         {
+            List<Venta> listaTot = new List<Venta>();
 
-            DataTable dt = Datos.Ventas.ObtenerDetalle(id);
-            return ArmarDatosDetalle(dt.Rows[0]);
+            DataTable dt = Datos.Ventas.ListarTot(IdVenta);
+
+
+            foreach (DataRow item in dt.Rows)
+            {
+
+                listaTot.Add(ArmarDatosTot(item));
+              
+
+            }
+
+            
+            return listaTot;
         }
 
-        //public static Venta ObtenerDetalleID(int id)
-        //{
-
-        //    DataTable dt = Datos.Ventas.ObtenerDetalle(id);
-        //    return ArmarDatosDetalle(dt.Rows[0]);
-        //}
 
         public void Grabar()
         {
-            string error;
-            if (Validar(out error))
+            try
             {
-                if (IdVenta != null)
-                    Modificar();
+                if (Validar(out string error))
+                {
+                    if (IdVenta.HasValue)
+                        Modificar();
+                    else
+                        Agregar();
+                }
                 else
-                    Agregar();
-            }
-            else
 
-                throw new Exception(error);
+                    throw new Exception(error);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
         }
 
@@ -80,43 +83,73 @@ namespace Negocio
             Datos.Ventas.Eliminar(IdVenta);
         }
 
-
         private static Venta ArmarDatos(DataRow dr)
         {
             Venta Venta = new Venta();
-            Venta.IdVenta= Convert.ToInt32(dr["IdVenta"]);
+            Venta.IdVenta = Convert.ToInt32(dr["IdVenta"]);
+            Venta.IdCliente = Convert.ToInt32(dr["IdCliente"]);
             Venta.Descripcion = dr["Descripcion"].ToString();
             Venta.Fecha = Convert.ToDateTime(dr["Fecha"]);
+            //Venta.Total = Venta.ListaDetalleV.Sum(x => x.Importe);
             Venta.Total = Convert.ToDecimal(dr["Total"]);
+
+            //Venta.ListaDetalleV = DetalleV.Buscar(Convert.ToInt32(dr["IdVenta"]));
 
             return Venta;
         }
 
-        private static Venta ArmarDatosDetalle(DataRow dr)
+        private static Venta ArmarDatosTot(DataRow dr)
         {
             Venta Venta = new Venta();
             Venta.IdVenta = Convert.ToInt32(dr["IdVenta"]);
-            Venta.Nombre= dr["Nombre"].ToString();
-            Venta.IdProducto = Convert.ToInt32(dr["IdProducto"]);
-            Venta.Cantidad = Convert.ToInt32(dr["Cantidad"]);
+            Venta.IdCliente = Convert.ToInt32(dr["IdCliente"]);
             Venta.Descripcion = dr["Descripcion"].ToString();
-            Venta.PrecioUnitario = Convert.ToDecimal(dr["PrecioUnitario"]);
-            Venta.Importe = Convert.ToDecimal(dr["Importe"]);
+            Venta.Fecha = Convert.ToDateTime(dr["Fecha"]);
             Venta.Total = Convert.ToDecimal(dr["Total"]);
+            
+
+            //Venta.ListaDetalleV = DetalleV.Buscar(Convert.ToInt32(dr["IdVenta"]));
 
             return Venta;
         }
+
 
         private void Modificar()
         {
 
-            Datos.Ventas.Modificar(IdVenta, Descripcion, Fecha, Total);
+            try
+            {
+                Datos.Ventas.Modificar(IdVenta, IdCliente, Descripcion, Fecha, Total);
+
+                
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
 
         }
 
         private void Agregar()
         {
-            Datos.Ventas.Agregar(Descripcion, Fecha, Total);
+            try
+            {
+                /*int idVenta =*/ Datos.Ventas.Agregar(Descripcion, IdCliente, Fecha, Total);
+               
+
+                //foreach (var item in this.ListaDetalleV)
+                //{
+                //    item.IdVenta = idVenta;
+                //    item.Grabar();
+                //}
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+
         }
 
         private bool Validar(out string error)

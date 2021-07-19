@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Datos
 {
-    public class Ventas
+   public class DetallesV
     {
+
         public static DataTable Listar()
         {
             try
@@ -20,7 +21,7 @@ namespace Datos
                 {
                     cn.Open();
                     //Se crea el objeto sqlcommand y asigno el nombre del procedimiento almacenado
-                    SqlCommand cmd = new SqlCommand("listar", cn);
+                    SqlCommand cmd = new SqlCommand("ListarDetalleV", cn);
 
                     // Espicifico el tipo de comando
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -36,12 +37,14 @@ namespace Datos
 
             catch (Exception ex)
             {
-                throw new Exception("Error al obtener la lista de Ventas: " + ex.Message);
+                throw new Exception("Error al obtener la lista de Detalle de Ventas: " + ex.Message);
             }
 
         }
 
-        public static DataTable ListarTot(int IdVenta)
+        
+
+        public static DataTable ListarID(int IdVenta)
         {
             try
             {
@@ -50,7 +53,7 @@ namespace Datos
                 {
                     cn.Open();
                     //Se crea el objeto sqlcommand y asigno el nombre del procedimiento almacenado
-                    SqlCommand cmd = new SqlCommand("listarTotal", cn);
+                    SqlCommand cmd = new SqlCommand("ObtenerId", cn);
 
                     // Espicifico el tipo de comando
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -71,7 +74,7 @@ namespace Datos
             }
         }
 
-        public static int Modificar(int? IdVenta, int IdCliente, string Descripcion, DateTime Fecha, decimal Total)
+        public static int Modificar(int? IdDetalleV, int IdVenta, int IdProducto, int CantidadProd,decimal PrecioUnitario, decimal Importe)
         {
             int id = 0;
             using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["Conexion"].ConnectionString))
@@ -85,11 +88,12 @@ namespace Datos
 
                 //agrego el valor al procedimiento almacenado
 
+                cmd.Parameters.Add(new SqlParameter("@IdDetalleV", IdDetalleV));
                 cmd.Parameters.Add(new SqlParameter("@IdVenta", IdVenta));
-                cmd.Parameters.Add(new SqlParameter("@IdCliente", IdCliente));
-                cmd.Parameters.Add(new SqlParameter("@Descripcion", Descripcion));
-                cmd.Parameters.Add(new SqlParameter("@Fecha", Fecha));
-                cmd.Parameters.Add(new SqlParameter("@Total", Total));
+                cmd.Parameters.Add(new SqlParameter("@IdProducto", IdProducto));
+                cmd.Parameters.Add(new SqlParameter("@CantidadProd", CantidadProd));
+                cmd.Parameters.Add(new SqlParameter("@PrecioUnitario", PrecioUnitario));
+                cmd.Parameters.Add(new SqlParameter("@Importe", Importe));
 
                 var dataReader = cmd.ExecuteReader();
             }
@@ -98,7 +102,7 @@ namespace Datos
 
         }
 
-        public static int Agregar(string Descripcion, int IdCliente, DateTime Fecha, decimal Total)
+        public static int Agregar(int IdVenta, int IdProducto, int CantidadProd,decimal PrecioUnitario, decimal Importe)
         {
             int id = 0;
             using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["Conexion"].ConnectionString))
@@ -107,7 +111,7 @@ namespace Datos
                 DataTable dt = new DataTable();
                 cn.Open();
 
-                SqlCommand cmd = new SqlCommand("InsertarVenta", cn);
+                SqlCommand cmd = new SqlCommand("InsertarDetalleV", cn);
 
 
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -115,11 +119,11 @@ namespace Datos
                 //agrego el valor al procedimiento almacenado
 
 
-                cmd.Parameters.Add(new SqlParameter("@Descripcion", Descripcion));
-                cmd.Parameters.Add(new SqlParameter("@IdCliente", IdCliente));
-                cmd.Parameters.Add(new SqlParameter("@Fecha", Fecha));
-                cmd.Parameters.Add(new SqlParameter("@Total", Total));
-
+                cmd.Parameters.Add(new SqlParameter("@IdVenta", IdVenta));
+                cmd.Parameters.Add(new SqlParameter("@IdProducto", IdProducto));
+                cmd.Parameters.Add(new SqlParameter("@CantidadProd", CantidadProd));
+                cmd.Parameters.Add(new SqlParameter("@PrecioUnitario", PrecioUnitario));
+                cmd.Parameters.Add(new SqlParameter("@Importe", Importe));
 
                 var dataReader = cmd.ExecuteReader();
 
@@ -128,7 +132,7 @@ namespace Datos
             return id;
         }
 
-        public static void Eliminar(int IdVenta)
+        public static void Eliminar(int IdDetalleV)
         {
             try
             {
@@ -140,14 +144,14 @@ namespace Datos
 
                     cn.Open();
 
-                    SqlCommand cmd = new SqlCommand("EliminarVenta", cn);
+                    SqlCommand cmd = new SqlCommand("EliminarDetalleV", cn);
 
 
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     //agrego el valor al procedimiento almacenado
 
-                    cmd.Parameters.Add(new SqlParameter("@IdVenta", IdVenta));
+                    cmd.Parameters.Add(new SqlParameter("@IdDetalleV", IdDetalleV));
 
                     var dataReader = cmd.ExecuteReader();
                 }
@@ -155,7 +159,7 @@ namespace Datos
 
             catch (Exception ex)
             {
-                throw new Exception("Error al eliminar la Venta: " + ex.Message);
+                throw new Exception("Error al eliminar Detalle Venta: " + ex.Message);
             }
 
         }
@@ -163,4 +167,3 @@ namespace Datos
 
     }
 }
-    

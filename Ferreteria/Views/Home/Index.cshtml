@@ -15,28 +15,19 @@
 <div id="pantalla1">
 
     <img src="~/fonts/logo-footer.png" />
+    <div class="col-md-pull-12" id="izquierda">
+        </br>
 
-        <div class="navbar navbar-brand" style="width: 50px;">
-      
 
-                <div class="navbar-collapse collapse">
-                    <ul class="nav nav-justified">
 
-                        @foreach (Negocio.Menu item in Model.ListaMenu)
-                        {
-                            if (item.Activo)
-                            {
-                                <li><a href="../@item.Controlador/@item.Accion" class="bg-info">@item.Descripcion</a></li>
-                            }
+        <button id="btn2" type="button" class="btn btn-secondary">Productos</button></br></br>
+        <button id="btn3" type="button" class="btn btn-secondary" >Ventas</button></br></br>
+        <button id="btn4" type="button" class="btn btn-secondary">Precios Generales</button></br></br>
+        <button id="btn5" type="button" class="btn btn-secondary" >Gastos</button></br></br>
 
-                        }
 
-                    </ul>
-                </div>
-            
-        </div>
-
-      
+    </div>
+   
 </div>
 
 

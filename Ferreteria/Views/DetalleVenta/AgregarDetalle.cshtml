@@ -1,0 +1,120 @@
+﻿@{ Layout = null; }
+@model  Negocio.DetalleV
+
+
+<script src="~/Scripts/Ventas/ABM.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="~/Scripts/Ventas/sweetalert.js"></script>
+
+<style>
+    .contenido {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .inner {
+        margin: 5px;
+        flex: 1;
+        min-width: 200px;
+        background: #ddd;
+        padding: 20px;
+    }
+</style>
+<br/>
+<div class="contenido">
+    <div class="inner">
+        <h3>Agregar Detalle</h3>
+        <br />
+        <form action="/DetalleVenta/Guardar" id="FrmDetalle" method="post">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label> Id Detalle</label>
+                    @Html.EditorFor(model => model.IdDetalleV, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.IdDetalleV, "", new { @class = "text-danger" })
+                    <label> Numero Venta</label>
+                    @Html.EditorFor(model => model.IdVenta, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.IdVenta, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="validationCustom01"> Producto</label> <br/>
+                    <input type="number" class="form-control" id="validationCustom01" name="IdProducto" required>
+
+                    <label> Catindad</label>
+                    <input type="number" class="form-control" name="CantidadProd" required>
+
+                    <label> Precio</label>
+                    <input type="number" class="form-control" name="PrecioUnitario" required>
+
+                    <label> Importe</label>
+                    <input type="number" class="form-control" name="Importe" readonly="readonly">
+                </div>
+
+            </div>
+            <div class="btn btn-primary" onclick="CrearDetalle(@Model.IdVenta)"> Agregar Detalle</div>
+        </form>
+
+    </div>
+
+    <div class="inner">
+        <h3>Lista Detalles</h3>
+        <br />
+        <table class="table">
+            <caption> Detalle de la Venta</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col"> N°Venta</th>
+                    <th scope="col"> Cód. Producto</th>
+                    <th scope="col"> Precio Unitario</th>
+                    <th scope="col"> Cantidad</th>
+                    <th scope="col" style="background-color:yellow; color:black"> Importe</th>
+                    <th scope="col"> Operación</th>
+                </tr>
+            </thead>
+            @foreach (Negocio.DetalleV item in Negocio.DetalleV.ListarID(@Model.IdVenta))
+            {
+
+                <tbody>
+                    <tr>
+
+                        <td>@item.IdVenta </td>
+                        @*<td>@item.ListaDetalleV.Nombre</td>
+                        <td>@item.Producto.Descripcion</td>*@
+                        <td>@item.IdProducto </td>
+                        <td>@item.PrecioUnitario </td>
+                        <td>@item.CantidadProd </td>
+                        <td style="background-color: yellow;color: black;font-weight: bold;">@item.Importe </td>
+                        <td align="center">
+
+                            @*<a class="btn btn-success btn-sm" href="/DetalleVenta/AgregarDetalle/@item.IdVenta" title="Agregar detalle">+</a>*@
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <a class="view link-icon-detail" onclick="EliminarDetalleV(@item.IdVenta)" title="Eliminar" data-id="1828843" data-src="?term=eliminar&amp;page=1&amp;position=4">
+                                    <img src="https://image.flaticon.com/icons/png/128/1828/1828843.png" data-src="https://image.flaticon.com/icons/png/128/1828/1828843.png" alt="Eliminar icono gratis" title="Eliminar detalle" width="30" height="30" class="lzy lazyload--done" srcset="https://image.flaticon.com/icons/png/128/1828/1828843.png 4x">
+                                </a>
+
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            }
+
+        </table>
+        <br />
+        <a class="btn btn-primary" href="/Ventas/Detalle/@Model.IdVenta"> Siguiente</a>
+
+    </div>
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/Jquery")
+    @Scripts.Render("~/bundles/Jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+}
+
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+
+

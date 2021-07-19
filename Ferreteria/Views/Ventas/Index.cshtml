@@ -2,66 +2,269 @@
 @{
     ViewBag.Title = "Ventas";
 }
-<link href="~/EstiloFerreteria1/css/personalizado.css" rel="stylesheet" />
+@model List<Negocio.Venta>
+
+
+@*datatable y JS*@
 <link href="~/EstiloFerreteria1/css/sb-admin-2.css" rel="stylesheet" />
 <script src="~/EstiloFerreteria1/js/sb-admin-2.min.js"></script>
-</br>
-<h2 class="text-center">Registros Generales de Ventas</h2></br>
-<h1>
-    Prueba Gustavo
-</h1>
-<div class="container">
-    <div class="card-body">
-        <div class="table-responsive">
-            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
 
-                <div class="col-sm-12 col-md-6"></div><label>Buscar:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label>
-            </div>
-        </div>
-    </div><div class="row">
-        <div class="col-sm-12">
-            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                <thead>
-                    <tr role="row"><th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 57px;">N°Venta</th><th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 61px;">Descripcion</th><th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 49px;">Fecha</th><th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 31px;">Total</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 68px;"></th></tr>
-                </thead>
+@*modal y JS*@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/Ventas/ABM.js"></script>
+<script src="~/Scripts/Ventas/sweetalert.js"></script>
+<style>
+    td {
+        padding: 10px;
+    }
+
+    input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-left: 5px;
+        vertical-align: middle;
+    }
+</style>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
                 
-                <tbody>
-                    @foreach (Negocio.Venta item in Negocio.Venta.Listar())
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/Ventas/Guardar" id="FrmVenta" method="post">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">N. Venta</label>
+                        <input type="text" name="IdVenta" class="form-control" id="recipient-name" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Cliente</label>
+                        <input type="text" name="IdCliente" value="Consumirod Final" class="form-control" id="message-text" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Fecha</label>
+                        <input type="date" name="Fecha" class="form-control" id="message-text" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Descripción</label>
+                        <input type="text" name="Descripcion" class="form-control" id="message-text" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="CrearVenta()">Generar</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@*TABLA GENERAL*@
+
+<div class="container">
+
+    <h2 class="text-center"><strong>Listado de Ventas</strong></h2>
+    <br /><hr />
+    <br />
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Crear Venta</button>
+    @*<div class="container">
+            <a class="btn btn-info btn-sm" href="/Ventas/CrearVenta"> Crear Venta</a>
+
+            <div style="float:right">
+                <a class="btn btn-info" href="/Ventas/Informe"> Informe</a>
+
+            </div>
+
+
+        </div>*@
+    <br />
+    <br />
+
+    <div class="col-sm-12">
+
+
+        <table id="example" class="table table-striped table-bordered" style="width:95%">
+            <thead>
+                <tr role="row">
+                    <th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 57px;">N° Venta</th>
+                    <th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 61px;">Fecha</th>
+                    <th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 49px;">Cliente</th>
+                    <th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 49px;">Descripción</th>
+                    <th class="sorting text-center" style="width: 25px;">Operaciones</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (Negocio.Venta item in Model)
+                {
+                    if (item.Total == 0)
                     {
                         <tr class="odd">
                             <td class="sorting_1">@item.IdVenta</td>
-                            <td>@item.Descripcion</td>
                             <td>@item.Fecha</td>
-                            <td>@item.Total</td>
-                            <td>
+                            @if (item.IdCliente == 1)
+                            {
+                                <td>Consumidor Final</td>
+                            }
+                            <td>@item.Descripcion</td>
 
-                                <div class="linea">
-                                    @Html.ActionLink("Ver Detalle", "DetalleVenta", new { id = item.IdVenta }, new {   @class= " btn btn-outline-primary btn-sm" })
-                            
-                                 </div>
-              
-                                <div class="linea">
-                                    @Html.ActionLink("Editar", "EditarVenta", new { id = item.IdVenta }, new { @class = "btn btn-outline-primary btn-sm" })
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                                           <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"></path>
-                                        </svg>
-                                 </div>
+                            <td class="sorting text-center">
 
+                                <div class="btn-group">
+                                    <a class="view link-icon-detail" href="/DetalleVenta/AgregarDetalle/@item.IdVenta" title="Agregar Detalle" data-id="1828843" data-src="?term=eliminar&amp;page=1&amp;position=4">
+                                        <img width="30" height="30" src="https://image.flaticon.com/icons/png/512/4371/4371137.png" alt="agregar icono gratis" title="Agregar Detalle" class="loaded">
+                                    </a>
+
+
+
+                                    <a class="view link-icon-detail" onclick="EliminarVenta(@item.IdVenta)" title="Eliminar" data-id="1828843" data-src="?term=eliminar&amp;page=1&amp;position=4">
+                                        <img src="https://image.flaticon.com/icons/png/128/1828/1828843.png" data-src="https://image.flaticon.com/icons/png/128/1828/1828843.png" alt="Eliminar icono gratis" title="Eliminar venta" width="30" height="30" class="lzy lazyload--done" srcset="https://image.flaticon.com/icons/png/128/1828/1828843.png 4x">
+                                    </a>
+
+                                </div>
                             </td>
+
 
                         </tr>
                     }
+                    else
+                    {
+                        <tr class="odd">
+                            
+                        </tr>
+                    }
 
-                </tbody>
-            </table>
-            <div class="left" aria-controls="dataTable"></div><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-             </svg><a href="/Ventas/CrearVenta"><input type="button" class="btn btn-primary btn-sm" value="Crear Venta">
-                   
-            </a>
-        </div>
-    </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite"></div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div>
+                }
+
+            </tbody>
+        </table>
+
+
+    </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite"></div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"></ul></div></div></div>
 </div>
+
+
+
+
+
+
+
+
+
+<script>
+
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        
+        modal.find('.modal-body input').val(recipient)
+    })
+
+ 
+   
+
+
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+
+    $(document).ready(function () {
+        $('#btnLlamar').on("click", function () {
+            $("#miModal").modal();
+        });
+    });
+
+
+
+</script>
+
+
+
+
+
+
+
+
+@*<div class="container">
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+
+                    <div class="col-sm-12 col-md-6"></div><label>Buscar:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label>
+                </div>
+            </div>
+        </div><div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                    <thead>
+                        <tr role="row"><th class="sorting sorting_asc text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 57px;">N°Venta</th><th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 61px;">Descripcion</th><th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 49px;">Fecha</th><th class="sorting text-center" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 31px;">Total</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 68px;"></th></tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (Negocio.Venta item in Negocio.Venta.Listar())
+                        {
+                            <tr class="odd">
+                                <td class="sorting_1">@item.IdVenta</td>
+                                <td>@item.Descripcion</td>
+                                <td>@item.Fecha</td>
+                                <td>@item.Total</td>
+                                <td>
+
+                                    <div class="linea">
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <div class="btn btn-primary btn-user btn-block" href="/DetalleVenta/Crear">Ver Detalle</div>
+
+                                            </div>
+                                        </div>
+                                     </div>
+
+                                    <div class="linea">
+                                        <a class="btn btn-info btn-block" href="/DetalleVenta/Editar/@item.IdVenta"> Añadir Vetalle</a>
+                                     </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+                <div class="left" aria-controls="dataTable"></div><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                 </svg><a href="/Ventas/CrearVenta"><input type="button" class="btn btn-primary btn-sm" value="Crear Venta">
+
+                </a>
+            </div>
+        </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite"></div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div>
+    </div>*@
 
 
 

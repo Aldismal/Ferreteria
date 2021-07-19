@@ -1,0 +1,126 @@
+﻿@{ Layout = null; }
+
+@model Negocio.Venta
+@{
+    ViewBag.Title = "maestroDetalle";
+}
+
+<h2>maestroDetalle</h2>
+<div style="color:aquamarine">
+    @ViewBag.Mesagge
+</div>
+
+@using (Html.BeginForm("Add", "Ventas", FormMethod.Post))
+{
+
+    <div class="row">
+        <div>
+            @Html.LabelFor(model => model.IdVenta)
+            @Html.TextBoxFor(model => model.IdCliente)
+        </div>
+        <div class="form-group">
+            <input type="submit">
+
+        </div>
+        <hr />
+        <div class="row">
+            <div class="form-group">
+                IdCliente
+                <input type="number" id="IdCliente" />
+                Fecha
+                <input type="date" id="Fecha" />
+                Descripcion
+                <input type="text" id="Descripcion" />
+                <input value="Agregar" type="button" onclick="Agregar(); return false;"/>
+            </div>
+
+
+
+            <div id="divConcepto">
+                <table id="tablaVenta">
+                    <tr>
+                        <th>N°Venta</th>
+                        <th>Id Cliente</th>
+                        <th>Fecha</th>
+                        <th>Descripcion</th>
+
+                    </tr>
+                    <tr>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>20-39-2222</th>
+                        <th>Varios</th>
+
+                    </tr>
+
+                </table>
+
+                <input type="hidden" name="Ventas.maestroDetalle" id="Ventas.maestroDetalle" value="0" />
+               
+                <input type="hidden" name="Ventas[0].IdCliente" id="Ventas[0].IdCliente" value="2" />
+                <input type="hidden" name="Ventas[0].Fecha" id="Ventas[0].Fecha" value="20-39-2222" />
+                <input type="hidden" name="Ventas[0].Descripcion" id="Ventas[0].Descripcion" value="varios" />
+
+
+            </div>
+
+        </div>
+
+       
+    </div>
+}
+
+    <script>
+        function Agregar() {
+
+            let IdCliente = document.getElementById("IdCliente").value;
+            let Fecha = document.getElementById("Fecha").value;
+            let Descripcion = document.getElementById("Descripcion").value;
+
+            let tabla = document.getElementById("tablaVenta");
+            let TR = document.createElement("tr");
+            let TDIdCliente = document.createElement("td");
+            let TDFecha = document.createElement("td");
+            let TDDescripcion = document.createElement("td");
+            TR.appendChild(TDIdCliente);
+            TR.appendChild(TDFecha);
+            TR.appendChild(TDDescripcion);
+            TDIdCliente.innerHTML = IdCliente;
+            TDFecha.innerHTML = Fecha;
+            TDDescripcion.innerHTML = Descripcion;
+
+            tabla.appendChild(TR);
+
+            let divConcepto = document.getElementById("divConceptos");
+            let HiddenIndex = document.getElementById("input");
+            let HiddenIdCliente = document.getElementById("input");
+            let HiddenFecha = document.getElementById("input");
+            let HiddenDescripcion = document.getElementById("input");
+
+
+            HiddenIndex.name = "Ventas.maestroDetalle";
+            HiddenIndex.value = num;
+            HiddenIndex.type = "hiden";
+            HiddenIdCliente.name = "Ventas[" + num + "].IdCliente";
+            HiddenIdCliente.value = IdCliente;
+            HiddenIdCliente.type = "hiden";
+            HiddenFecha.name = "Ventas[" + num + "].Fecha";
+            HiddenFecha.value = Fecha;
+            HiddenFecha.type = "hiden";
+            HiddenDescripcion.name = "Ventas[" + num + "].Descripcion";
+            HiddenDescripcion.value = Descripcion;
+            HiddenDescripcion.type = "hiden";
+            divConcepto.appendChild(HiddenIndex);
+            divConcepto.appendChild(HiddenIdCliente);
+            divConcepto.appendChild(HiddenFecha);
+            divConcepto.appendChild(HiddenDescripcion);
+
+
+
+
+            let IdCliente = document.getElementById("IdCliente").value = "";
+            let Fecha = document.getElementById("Fecha").value="";
+            let Descripcion = document.getElementById("Descripcion").value="";
+        }
+
+    </script>

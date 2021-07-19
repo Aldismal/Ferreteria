@@ -11,23 +11,8 @@ namespace Ferreteria.Controllers
     {
         public ActionResult Index()
         {
-            Negocio.Usuario u = new Negocio.Usuario();
 
-            if (Session["Usuario"] != null)
-            {
-                u = (Negocio.Usuario)Session["Usuario"];
-
-                //si usuario correcto, buscar el menu que le corresponde
-                List<Menu> listamenu = new List<Menu>();
-                listamenu = Negocio.Menu.ListarPorUsuario(Convert.ToInt32(u.IdUsuario));
-                u.ListaMenu = listamenu;
-            }
-            else
-            {
-                throw new Exception("No se encontró el usuario");
-            }         
-            
-            return View(u);
+            return View(((Usuario)Session["Usuario"]));
         }
 
         public ActionResult About()
