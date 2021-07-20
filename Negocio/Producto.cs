@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Datos;
 namespace Negocio
 {
     class Producto
@@ -27,7 +28,7 @@ namespace Negocio
         public static List<Producto> Listar()
         {
             List<Producto> ListaProductos = new List<Producto>();
-
+            
             DataTable dt = Datos.Productos.Listar();
 
             foreach (DataRow item in dt.Rows)
@@ -93,7 +94,7 @@ namespace Negocio
 
         private void Modificar()
         {          
-
+           
             Datos.Productos.Modificar(Id_Producto, Nombre_producto, Precio_producto, Descripcion, Estado);
         }
 
@@ -102,6 +103,43 @@ namespace Negocio
 
             return Datos.Productos.Agregar(Nombre_producto, Precio_producto, Descripcion, Estado);
         }
+
+
+        private bool Validar(out string error)
+        {
+            error = "";
+
+            if (string.IsNullOrEmpty(Nombre_producto))
+
+                error = "El campo nombre de producto se encuentra vacio ;";
+
+            if (Precio_producto.ToString().Length == 0)
+
+                error += "El campo Precio del producto se encuentra vacio ;";
+
+            if (string.IsNullOrEmpty(Descripcion))
+
+                error += "El campo Descripcion se encuentra vacio ;";
+
+            if (string.IsNullOrEmpty(Estado))
+
+                error += "El campo Estado se encuentra vacio ;";
+
+
+
+            if (string.IsNullOrEmpty(error))
+
+                return true;
+            else
+                return false;
+
+        }
+
+
+
+
+
+
         #endregion
     }
 }
