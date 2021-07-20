@@ -7,7 +7,7 @@ using Negocio;
 
 namespace Ferreteria.Controllers
 {
-    public class ProductosController : Controller
+    public class ProductoController : Controller
     {
         public ActionResult Index()
         {
